@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editTextCity;
     private TextView textViewWeather;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         editTextCity = findViewById(R.id.editTextCity);
         textViewWeather = findViewById(R.id.textViewWeather);
+        imageView = findViewById(R.id.imageView);
     }
 
     public void onClickShowWeather(View view) {
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 DownloadWeatherTask task = new DownloadWeatherTask();
                 String url = String.format(WEATHER_URL, city);
                 task.execute(url);
+                imageView.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,9 +98,16 @@ public class MainActivity extends AppCompatActivity {
                     String city = jsonObject.getString("name");
                     String temp = jsonObject.getJSONObject("main").getString("temp");
                     String description = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
-
-
                     String weather = String.format("%s\nTemperatura: %s\nNa dworze jest: %s", city, temp, description);
+
+                    String icoID = jsonObject.getJSONArray("weather").getJSONObject(0).getString("icon");
+                    String urlIco = String.format("http://openweathermap.org/img/wn/%s@2x.png", icoID);
+
+                    Picasso.with(MainActivity.this).load(urlIco)
+                            .placeholder(R.drawable.weathericostart)
+                            .error(R.drawable.weathericostart)
+                            .into(imageView);
+
                     textViewWeather.setText(weather);
 
                 } catch (JSONException e) {
