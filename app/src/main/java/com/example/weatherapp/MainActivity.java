@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
                     String icoID = jsonObject.getJSONArray("weather").getJSONObject(0).getString("icon");
                     String urlIco = String.format("http://openweathermap.org/img/wn/%s@2x.png", icoID);
 
-                    Picasso.with(MainActivity.this).load(urlIco)
-                            .placeholder(R.drawable.weathericostart)
-                            .error(R.drawable.weathericostart)
+                    Picasso.with(MainActivity.this)
+                            .load(urlIco)
+                            .error(R.drawable.weathererror)
                             .into(imageView);
 
                     textViewWeather.setText(weather);

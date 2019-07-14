@@ -79,6 +79,6 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/textViewWeather"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/weathericostart" />
+        app:srcCompat="@drawable/weathererror" />
 
 </android.support.constraint.ConstraintLayout>
